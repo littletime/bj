@@ -10,7 +10,7 @@ class Table
   attr_reader :dealer, :players
 
   def start_game()
-    1.times do
+    3.times do
       dealer.play_turn()
       print_table
     end

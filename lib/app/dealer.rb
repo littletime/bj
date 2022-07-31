@@ -1,4 +1,5 @@
 require_relative "deck"
+require_relative "actions"
 
 class Dealer
   def initialize(players)
@@ -10,7 +11,19 @@ class Dealer
 
   def play_turn()
     @hand = []
+    players.each &:clear_hands
     deal
+
+    players.each { |player| player_turn(player) }
+  end
+
+  def player_turn(player)
+    while (act = player.next_action) != Actions::STAY && !player.burnt?
+      case act
+      when Actions::HIT
+        deal_card_to player
+      end
+    end
   end
 
   def deal()
