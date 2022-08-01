@@ -33,10 +33,10 @@ class Hand
 
     sorted_hand.each do |card|
       if card.ace? && !hard
-        if total + 11 > 21
-          total += 1
-        else
+        if total + 11 <= 21
           total += 11
+        else
+          total += 1
         end
       else
         total += card.value

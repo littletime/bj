@@ -19,7 +19,7 @@ class Deck
   end
 
   def draw
-    return cards.shift
+    cards.shift
   end
 
   def passed_cut?

@@ -14,16 +14,19 @@ class Player
   attr_reader :hand, :hands
 
   def win!
+    print "WIN\n"
     @cash += @bet * 2
     @wins += 1
   end
 
   def draw!
+    print "DRAW\n"
     @cash += @bet
     @draws += 1
   end
 
   def lose!
+    print "LOSS\n"
     @losses += 1
   end
 
@@ -46,12 +49,15 @@ class Player
   end
 
   def game_recap
-    print "WINS: #{@wins} | DRAWS: #{@draws} | LOSSES: #{@losses} | FINAL_BALANCE: #{@cash}\n"
+    print "\n--------\nWINS: #{@wins} | DRAWS: #{@draws} | LOSSES: #{@losses} | FINAL_BALANCE: #{@cash}\n--------\n"
   end
 
   def place_bet
     @bet = 1
     @cash -= @bet
+
+    # print "PLACING BET : #{@bet} -- "
+    # print "REMAINING CASH : #{@cash}\n"
   end
 
   def next_action

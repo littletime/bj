@@ -1,17 +1,19 @@
 require_relative "ia_player"
 require_relative "dealer"
+require_relative "deck"
 
 class Table
   def initialize()
     @players = [IaPlayer.new]
-    @dealer = Dealer.new(@players)
+    @deck = Deck.new(4)
+    @dealer = Dealer.new(@players, @deck)
   end
 
-  attr_reader :dealer, :players
+  attr_reader :dealer, :players, :deck
 
   def start_game()
-    3000.times do
-      dealer.play_turn
+    100.times do
+      play_turn
       print_table
     end
 
@@ -28,6 +30,61 @@ class Table
         hand.print_cards
         print " -- HAND VALUE : #{hand.value}"
         print "\n"
+      end
+    end
+  end
+
+  def play_turn
+    deck.generate! if deck.passed_cut?
+    clear_hands
+    players.each &:place_bet
+    dealer.initial_cards_deal
+    players.each { |player| player_turn(player) }
+    dealer.dealer_turn
+    end_turn
+  end
+
+  def clear_hands
+    dealer.hand.clear
+    players.each &:clear_hands
+  end
+
+  def player_turn(player)
+    while !player.hand.burnt? && (act = player.next_action) != Actions::STAY
+      case act
+      when Actions::HIT
+        dealer.deal_card_to player
+      when Actions::DOUBLE
+        dealer.deal_card_to player
+        break
+      when Actions::SPLIT
+        # play left game : deal new card and play
+        dealer.deal_card_to player
+        player_turn player
+
+        # play right game : deal new card and play
+        dealer.deal_card_to player
+        player_turn player
+
+        break
+      end
+    end
+
+    player.end_turn!
+  end
+
+  def end_turn
+    players.each do |player|
+      player.hands.each do |player_hand|
+        if player_hand.burnt?
+          player.lose!
+        elsif !dealer.hand.burnt?
+          player.win! if player_hand.value > dealer.hand.value
+          player.draw! if player_hand.value == dealer.hand.value
+          player.lose! if player_hand.value < dealer.hand.value
+        else
+          player.win!
+        end
       end
     end
   end
