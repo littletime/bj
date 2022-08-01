@@ -5,7 +5,7 @@ require_relative "deck"
 class Table
   def initialize()
     @players = [IaPlayer.new]
-    @deck = Deck.new(4)
+    @deck = Deck.new(4, @players)
     @dealer = Dealer.new(@players, @deck)
   end
 
@@ -61,11 +61,9 @@ class Table
         # play left game : deal new card and play
         dealer.deal_card_to player
         player_turn player
-
         # play right game : deal new card and play
         dealer.deal_card_to player
         player_turn player
-
         break
       end
     end

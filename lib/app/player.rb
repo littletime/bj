@@ -38,6 +38,7 @@ class Player
   def split!
     @hands.push Hand.new([@hand.first])
     @hand = @hands[@current_hand] = Hand.new([@hand.first])
+    @cash -= @bet
   end
 
   def end_turn!
@@ -52,12 +53,12 @@ class Player
     print "\n--------\nWINS: #{@wins} | DRAWS: #{@draws} | LOSSES: #{@losses} | FINAL_BALANCE: #{@cash}\n--------\n"
   end
 
-  def place_bet
-    @bet = 1
+  def place_bet(val = 1)
+    @bet = val
     @cash -= @bet
 
-    # print "PLACING BET : #{@bet} -- "
-    # print "REMAINING CASH : #{@cash}\n"
+    print "PLACING BET : #{@bet} -- "
+    print "REMAINING CASH : #{@cash}\n"
   end
 
   def next_action
@@ -82,5 +83,9 @@ class Player
 
   def set_hand
     @hand = @hands[@current_hand]
+  end
+
+  def new_card!(card, remaining_decks)
+    # do nothing here
   end
 end

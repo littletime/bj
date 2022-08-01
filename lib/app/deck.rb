@@ -1,8 +1,9 @@
 require_relative "card"
 
 class Deck
-  def initialize(decks_nb = 1)
+  def initialize(decks_nb = 1, players)
     @decks_nb = decks_nb
+    @players = players
     generate!
   end
 
@@ -19,7 +20,9 @@ class Deck
   end
 
   def draw
-    cards.shift
+    card = cards.shift
+    players.each { |p| p.new_card! card, remaining_decks }
+    card
   end
 
   def passed_cut?
@@ -28,7 +31,7 @@ class Deck
 
   private
 
-  attr_reader :cards
+  attr_reader :cards, :players
 
   def load_cards(decks_nb)
     decks_nb.times do
