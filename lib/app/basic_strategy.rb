@@ -217,6 +217,7 @@ module BasicStrategy
       '1': Actions::STAY
     }
   }
+
   SOFT = {
     '12': {
       '2': Actions::HIT,
@@ -337,6 +338,129 @@ module BasicStrategy
       '9': Actions::STAY,
       '10': Actions::STAY,
       '1': Actions::STAY
+    }
+  }
+
+  PAIRS = {
+    '4': {
+      '2': true,
+      '3': true,
+      '4': true,
+      '5': true,
+      '6': true,
+      '7': true,
+      '8': false,
+      '9': false,
+      '10': false,
+      '1': false
+    },
+    '6': {
+      '2': true,
+      '3': true,
+      '4': true,
+      '5': true,
+      '6': true,
+      '7': true,
+      '8': false,
+      '9': false,
+      '10': false,
+      '1': false
+    },
+    '8': {
+      '2': false,
+      '3': false,
+      '4': false,
+      '5': true,
+      '6': true,
+      '7': false,
+      '8': false,
+      '9': false,
+      '10': false,
+      '1': false
+    },
+    '10': {
+      '2': false,
+      '3': false,
+      '4': false,
+      '5': false,
+      '6': false,
+      '7': false,
+      '8': false,
+      '9': false,
+      '10': false,
+      '1': false
+    },
+    '12': {
+      '2': true,
+      '3': true,
+      '4': true,
+      '5': true,
+      '6': true,
+      '7': false,
+      '8': false,
+      '9': false,
+      '10': false,
+      '1': false
+    },
+    '14': {
+      '2': true,
+      '3': true,
+      '4': true,
+      '5': true,
+      '6': true,
+      '7': true,
+      '8': false,
+      '9': false,
+      '10': false,
+      '1': false
+    },
+    '16': {
+      '2': true,
+      '3': true,
+      '4': true,
+      '5': true,
+      '6': true,
+      '7': true,
+      '8': true,
+      '9': true,
+      '10': true,
+      '1': true
+    },
+    '18': {
+      '2': true,
+      '3': true,
+      '4': true,
+      '5': true,
+      '6': true,
+      '7': false,
+      '8': true,
+      '9': true,
+      '10': false,
+      '1': false
+    },
+    '20': {
+      '2': false,
+      '3': false,
+      '4': false,
+      '5': false,
+      '6': false,
+      '7': false,
+      '8': false,
+      '9': false,
+      '10': false,
+      '1': false
+    },
+    '2': {
+      '2': true,
+      '3': true,
+      '4': true,
+      '5': true,
+      '6': true,
+      '7': true,
+      '8': true,
+      '9': true,
+      '10': true,
+      '1': true
     }
   }
 end
