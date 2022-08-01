@@ -1,6 +1,6 @@
 class Hand
-  def initialize
-    @cards = []
+  def initialize(cards = [])
+    @cards = cards
   end
 
   def push(card)
@@ -21,6 +21,10 @@ class Hand
 
   def burnt?
     value > 21
+  end
+
+  def pair?
+    cards.count == 2 && cards[0].value == cards[1].value
   end
 
   def value(hard = false)

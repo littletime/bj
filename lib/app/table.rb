@@ -3,16 +3,16 @@ require_relative "dealer"
 
 class Table
   def initialize()
-    @players = [IaPlayer.new()]
+    @players = [IaPlayer.new]
     @dealer = Dealer.new(@players)
   end
 
   attr_reader :dealer, :players
 
   def start_game()
-    300.times do
+    3000.times do
       dealer.play_turn
-      #print_table
+      print_table
     end
 
     players[0].game_recap
@@ -23,10 +23,12 @@ class Table
     dealer.hand.print_cards
     print "\n"
     players.each_with_index do |p, i|
-      print "PLAYER ##{i} CARDS : "
-      p.hand.print_cards
-      print " -- HAND VALUE : #{p.hand.value}"
-      print "\n"
+      p.hands.each do |hand|
+        print "PLAYER ##{i} CARDS : "
+        hand.print_cards
+        print " -- HAND VALUE : #{hand.value}"
+        print "\n"
+      end
     end
   end
 end

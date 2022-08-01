@@ -11,7 +11,11 @@ class Deck
 
     load_cards(@decks_nb)
     shuffle
-    @cut = rand(0..@cards.count)
+    @cut = rand(0..(@cards.count * 0.75))
+  end
+
+  def remaining_decks
+    @decks_nb - (@cards.count / 52)
   end
 
   def draw

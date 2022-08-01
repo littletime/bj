@@ -21,9 +21,11 @@ class Dealer
     dealer_turn
 
     players.each do |player|
-      return player.win! if !player.hand.burnt? && (hand.burnt? || (!player.hand.burnt? && player.hand.value > hand.value))
-      return player.draw! if hand.value == player.hand.value
-      player.lose!
+      player.hands.each do |player_hand|
+        return player.win! if !player_hand.burnt? && (hand.burnt? || (!player_hand.burnt? && player_hand.value > hand.value))
+        return player.draw! if hand.value == player_hand.value
+        player.lose!
+      end
     end
   end
 
@@ -43,18 +45,30 @@ class Dealer
       when Actions::DOUBLE
         deal_card_to player
         break
+      when Actions::SPLIT
+        # play left game : deal new card and play
+        deal_card_to player
+        player_turn player
+
+        # play right game : deal new card and play
+        deal_card_to player
+        player_turn player
+
+        break
       end
     end
+
+    player.end_turn!
   end
 
-  def initial_deal()
+  def initial_deal
     deal_one_card_to_all_players
     draw_visible_dealer_card
     deal_one_card_to_all_players
     draw_hidden_dealer_card
   end
 
-  def dealer_turn()
+  def dealer_turn
     while hand.value < 17
       hand.push deck.draw
     end

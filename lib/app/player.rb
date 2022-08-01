@@ -3,15 +3,15 @@ require_relative "hand"
 class Player
   def initialize(base_cash = 100)
     @cash = base_cash
-    @hand = Hand.new
-    @dealer_hand = []
 
     @wins = 0
     @draws = 0
     @losses = 0
+
+    clear_hands
   end
 
-  attr_reader :hand
+  attr_reader :hand, :hands
 
   def win!
     @cash += @bet * 2
@@ -30,6 +30,19 @@ class Player
   def double!
     @cash -= @bet
     @bet *= 2
+  end
+
+  def split!
+    @hands.push Hand.new([@hand.first])
+    @hand = @hands[@current_hand] = Hand.new([@hand.first])
+  end
+
+  def end_turn!
+    # if we have more hands to play
+    if @current_hand + 1 < @hands.count
+      @current_hand += 1
+      set_hand
+    end
   end
 
   def game_recap
@@ -54,7 +67,14 @@ class Player
   end
 
   def clear_hands()
-    @hand = Hand.new
+    @hands = [Hand.new]
+    @current_hand = 0
     @dealer_hand = []
+
+    set_hand
+  end
+
+  def set_hand
+    @hand = @hands[@current_hand]
   end
 end
