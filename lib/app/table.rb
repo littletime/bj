@@ -10,27 +10,23 @@ class Table
   attr_reader :dealer, :players
 
   def start_game()
-    3.times do
-      dealer.play_turn()
-      print_table
+    300.times do
+      dealer.play_turn
+      #print_table
     end
+
+    players[0].game_recap
   end
 
   def print_table
     print "DEALER CARDS : "
-    print_hand(dealer.hand)
+    dealer.hand.print_cards
     print "\n"
     players.each_with_index do |p, i|
       print "PLAYER ##{i} CARDS : "
-      print_hand(p.hand)
+      p.hand.print_cards
+      print " -- HAND VALUE : #{p.hand.value}"
       print "\n"
-    end
-  end
-
-  def print_hand(hand)
-    hand.each do |card|
-      print card.value
-      print " "
     end
   end
 end

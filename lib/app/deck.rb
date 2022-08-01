@@ -2,11 +2,27 @@ require_relative "card"
 
 class Deck
   def initialize(decks_nb = 1)
+    @decks_nb = decks_nb
+    generate!
+  end
+
+  def generate!
     @cards = []
 
-    load_cards(decks_nb)
+    load_cards(@decks_nb)
     shuffle
+    @cut = rand(0..@cards.count)
   end
+
+  def draw
+    return cards.shift
+  end
+
+  def passed_cut?
+    @cards.count + @cut <  @decks_nb * 52
+  end
+
+  private
 
   attr_reader :cards
 
@@ -18,11 +34,7 @@ class Deck
     end
   end
 
-  def shuffle()
+  def shuffle
     @cards.shuffle!
-  end
-
-  def draw()
-    return cards.shift
   end
 end
