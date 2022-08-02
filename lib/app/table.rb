@@ -5,7 +5,7 @@ require_relative "deck"
 class Table
   def initialize()
     @players = [IaPlayer.new]
-    @deck = Deck.new(4, @players)
+    @deck = Deck.new(6, @players)
     @dealer = Dealer.new(@players, @deck)
   end
 

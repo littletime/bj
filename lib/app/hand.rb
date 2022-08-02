@@ -56,7 +56,7 @@ class Hand
   def black_jack?
     hand_values = @cards.map &:value
 
-    hand_values.include?(1) && hand_values.include?(10)
+    hand_values.count == 2 && hand_values.include?(1) && hand_values.include?(10)
   end
 
   private

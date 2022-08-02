@@ -4,6 +4,7 @@ class Deck
   def initialize(decks_nb = 1, players)
     @decks_nb = decks_nb
     @players = players
+    @cards = []
     generate!
   end
 
@@ -13,6 +14,7 @@ class Deck
     load_cards(@decks_nb)
     shuffle
     @cut = rand(0..(@cards.count * 0.75))
+    # @cut = @cards.count / 2
     @players.each { |p| p.new_deck!(@decks_nb) }
   end
 

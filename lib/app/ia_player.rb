@@ -60,19 +60,18 @@ class IaPlayer < Player
   end
 
   def place_bet
-    base_bet = 2
-    #super custom_bet_spread
-    super custom_bet_spread(base_bet)
+    super soft_spread
+    #super risky_spread
   end
 
-  def youtube_guy_spread(base_bet = 2)
+  def soft_spread(base_bet = 2)
     return base_bet * 2 if true_count == 2
     return base_bet * 4 if true_count == 3
     return base_bet * 8 if true_count >= 4
     base_bet
   end
 
-  def custom_bet_spread(base_bet)
+  def risky_spread(base_bet = 2)
     streak_coeff = if streak?(:win)
       3
     elsif streak?(:loss, 5)
