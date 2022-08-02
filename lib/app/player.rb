@@ -88,4 +88,8 @@ class Player
   def new_card!(card, remaining_decks)
     # do nothing here
   end
+
+  def new_deck!
+    # do nothing here
+  end
 end

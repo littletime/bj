@@ -36,6 +36,11 @@ class IaPlayer < Player
     print "CURRENT COUNT : #{@current_count}\n"
   end
 
+  def new_deck!
+    print "\nRESET COUNT\n"
+    @current_count = 0
+  end
+
   def card_value(card)
     Count::VALUES.each do |key, val|
       if val.include? card.value

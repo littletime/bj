@@ -13,6 +13,7 @@ class Deck
     load_cards(@decks_nb)
     shuffle
     @cut = rand(0..(@cards.count * 0.75))
+    @players.each &:new_deck!
   end
 
   def remaining_decks

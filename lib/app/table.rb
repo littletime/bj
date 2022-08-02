@@ -12,7 +12,7 @@ class Table
   attr_reader :dealer, :players, :deck
 
   def start_game()
-    100.times do
+    1000.times do
       play_turn
       print_table
     end
