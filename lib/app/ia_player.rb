@@ -10,9 +10,9 @@ class IaPlayer < Player
   end
 
   def next_action
+    print "CURRENT COUNT : #{@current_count}\n"
     if hand.pair? && basic_action(BasicStrategy::PAIRS) == true
       split!
-      print "\nSPLIT\n"
       return Actions::SPLIT
     end
 
@@ -33,11 +33,11 @@ class IaPlayer < Player
   def new_card!(card, remaining_decks)
     @current_count += card_value(card)
     @remaining_decks = remaining_decks
-    print "CURRENT COUNT : #{@current_count}\n"
   end
 
-  def new_deck!
+  def new_deck!(decks_nb)
     print "\nRESET COUNT\n"
+    @remaining_decks = decks_nb
     @current_count = 0
   end
 
@@ -49,7 +49,37 @@ class IaPlayer < Player
     end
   end
 
+  def true_count
+    return 1 if @current_count <= 0
+
+    @current_count / @remaining_decks
+  end
+
+  def streak?(result, games_nb = 2)
+    @last_games.last(games_nb).all? { |res| res == :win }
+  end
+
   def place_bet
-    super(@current_count < 1 ? 1 : (@current_count / @remaining_decks))
+    base_bet = 1
+
+    streak_coeff = if streak?(:win)
+      3
+    elsif streak?(:loss, 5)
+      6
+    else
+      1
+    end
+
+    risk_coeff = if @cash > 30
+      true_count
+    elsif @cash > 70
+      true_count * 2
+    elsif @cash > 100
+      true_count * true_count
+    else
+      1
+    end
+
+    super base_bet * risk_coeff * streak_coeff
   end
 end

@@ -8,6 +8,8 @@ class Player
     @draws = 0
     @losses = 0
 
+    @last_games = []
+
     clear_hands
   end
 
@@ -17,17 +19,20 @@ class Player
     print "WIN\n"
     @cash += @bet * 2
     @wins += 1
+    @last_games.push :win
   end
 
   def draw!
     print "DRAW\n"
     @cash += @bet
     @draws += 1
+    @last_games.push :draw
   end
 
   def lose!
     print "LOSS\n"
     @losses += 1
+    @last_games.push :loss
   end
 
   def double!
@@ -89,7 +94,7 @@ class Player
     # do nothing here
   end
 
-  def new_deck!
+  def new_deck!(decks_nb)
     # do nothing here
   end
 end
