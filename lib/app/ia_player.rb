@@ -56,7 +56,7 @@ class IaPlayer < Player
   end
 
   def streak?(result, games_nb = 2)
-    @last_games.last(games_nb).all? { |res| res == :win }
+    @last_games.last(games_nb).all? { |res| res == result }
   end
 
   def place_bet
