@@ -53,6 +53,12 @@ class Hand
     end
   end
 
+  def black_jack?
+    hand_values = @cards.map &:value
+
+    hand_values.include?(1) && hand_values.include?(10)
+  end
+
   private
 
   attr_reader :cards

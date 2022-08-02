@@ -10,7 +10,7 @@ class IaPlayer < Player
   end
 
   def next_action
-    print "CURRENT COUNT : #{@current_count}\n"
+    #print "CURRENT COUNT : #{@current_count}\n"
     if hand.pair? && basic_action(BasicStrategy::PAIRS) == true
       split!
       return Actions::SPLIT
@@ -50,7 +50,7 @@ class IaPlayer < Player
   end
 
   def true_count
-    return 1 if @current_count <= 0
+    return 1 if @current_count <= 0 || @current_count < @remaining_decks
 
     @current_count / @remaining_decks
   end
@@ -60,8 +60,19 @@ class IaPlayer < Player
   end
 
   def place_bet
-    base_bet = 1
+    base_bet = 2
+    #super custom_bet_spread
+    super custom_bet_spread(base_bet)
+  end
 
+  def youtube_guy_spread(base_bet = 2)
+    return base_bet * 2 if true_count == 2
+    return base_bet * 4 if true_count == 3
+    return base_bet * 8 if true_count >= 4
+    base_bet
+  end
+
+  def custom_bet_spread(base_bet)
     streak_coeff = if streak?(:win)
       3
     elsif streak?(:loss, 5)
@@ -70,16 +81,15 @@ class IaPlayer < Player
       1
     end
 
-    risk_coeff = if @cash > 30
-      true_count
-    elsif @cash > 70
-      true_count * 2
-    elsif @cash > 100
-      true_count * true_count
-    else
+    risk_coeff = if @cash < 100
       1
+    elsif @cash < 200
+      true_count
+    else
+      true_count * true_count
     end
 
-    super base_bet * risk_coeff * streak_coeff
+    #print "BASE BET : #{base_bet} | RISK_COEFF : #{risk_coeff} | STREAK COEFF : #{streak_coeff}\n"
+    base_bet * risk_coeff * streak_coeff
   end
 end

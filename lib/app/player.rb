@@ -1,10 +1,11 @@
 require_relative "hand"
 
 class Player
-  def initialize(base_cash = 100)
+  def initialize(base_cash = 200)
     @cash = base_cash
 
     @wins = 0
+    @black_jacks = 0
     @draws = 0
     @losses = 0
 
@@ -20,6 +21,13 @@ class Player
     @cash += @bet * 2
     @wins += 1
     @last_games.push :win
+  end
+
+  def black_jack!
+    print "BLACK JACK 💸\n"
+    @cash += @bet * 2.5
+    @black_jacks += 1
+    @last_games.push :black_jack
   end
 
   def draw!
@@ -55,7 +63,7 @@ class Player
   end
 
   def game_recap
-    print "\n--------\nWINS: #{@wins} | DRAWS: #{@draws} | LOSSES: #{@losses} | FINAL_BALANCE: #{@cash}\n--------\n"
+    print "\n--------\nBLACK JACKS: #{@black_jacks} | WINS: #{@wins} | DRAWS: #{@draws} | LOSSES: #{@losses} | FINAL_BALANCE: #{@cash}\n--------\n"
   end
 
   def place_bet(val = 1)

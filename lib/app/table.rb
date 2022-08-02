@@ -12,9 +12,9 @@ class Table
   attr_reader :dealer, :players, :deck
 
   def start_game()
-    100.times do
+    1000.times do
       play_turn
-      print_table
+      #print_table
     end
 
     players[0].game_recap
@@ -49,7 +49,9 @@ class Table
     players.each &:clear_hands
   end
 
-  def player_turn(player)
+  def player_turn(player, splitted_hand = false)
+    return player.end_turn! if !splitted_hand && black_jack?(player)
+
     while !player.hand.burnt? && (act = player.next_action) != Actions::STAY
       case act
       when Actions::HIT
@@ -60,10 +62,10 @@ class Table
       when Actions::SPLIT
         # play left game : deal new card and play
         dealer.deal_card_to player
-        player_turn player
+        player_turn player, true
         # play right game : deal new card and play
         dealer.deal_card_to player
-        player_turn player
+        player_turn player, true
         break
       end
     end
@@ -71,11 +73,18 @@ class Table
     player.end_turn!
   end
 
+  def black_jack?(player)
+    player.hand.black_jack? && !dealer.hand.black_jack?
+  end
+
   def end_turn
     players.each do |player|
       player.hands.each do |player_hand|
+
         if player_hand.burnt?
           player.lose!
+        elsif black_jack?(player)
+          player.black_jack!
         elsif !dealer.hand.burnt?
           player.win! if player_hand.value > dealer.hand.value
           player.draw! if player_hand.value == dealer.hand.value
