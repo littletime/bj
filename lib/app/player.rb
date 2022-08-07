@@ -1,7 +1,7 @@
 require_relative "hand"
 
 class Player
-  def initialize(base_cash = 200)
+  def initialize(base_cash = 1000)
     @cash = base_cash
 
     @wins = 0

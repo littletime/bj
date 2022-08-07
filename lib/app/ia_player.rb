@@ -56,7 +56,7 @@ class IaPlayer < Player
   end
 
   def streak?(result, games_nb = 2)
-    @last_games.last(games_nb).all? { |res| res == result }
+    true_count > 0 && @last_games.last(games_nb).all? { |res| res == result }
   end
 
   def place_bet
@@ -80,15 +80,15 @@ class IaPlayer < Player
       1
     end
 
-    risk_coeff = if @cash < 100
-      1
-    elsif @cash < 200
+    risk_coeff = if @cash < 800
       true_count
+    elsif @cash < 1000
+      true_count * 2
     else
       true_count * true_count
     end
 
-    #print "BASE BET : #{base_bet} | RISK_COEFF : #{risk_coeff} | STREAK COEFF : #{streak_coeff}\n"
+    print "BASE BET : #{base_bet} | RISK_COEFF : #{risk_coeff} | STREAK COEFF : #{streak_coeff} | TRUE COUNT : #{true_count}\n"
     base_bet * risk_coeff * streak_coeff
   end
 end

@@ -4,7 +4,7 @@ require_relative "deck"
 
 class Table
   def initialize()
-    @players = [IaPlayer.new]
+    @players = [IaPlayer.new, IaPlayer.new, IaPlayer.new]
     @deck = Deck.new(6, @players)
     @dealer = Dealer.new(@players, @deck)
   end
@@ -12,12 +12,12 @@ class Table
   attr_reader :dealer, :players, :deck
 
   def start_game()
-    1000.times do
+    30.times do
       play_turn
       #print_table
     end
 
-    players[0].game_recap
+    players.each &:game_recap
   end
 
   def print_table
