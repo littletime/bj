@@ -6,6 +6,5 @@ require_relative "app/table"
 module App
   class Error < StandardError; end
 
-  table = Table.new()
-  table.start_game
+  Table.new.start_game
 end
